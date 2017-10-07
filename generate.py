@@ -30,6 +30,8 @@ from PIL import Image
 from PIL import ImageFile
 ImageFile.LOAD_TRUNCATED_IMAGES = True
 
+from utils import Timer
+
 
 def story(z, image_loc, k=100, bw=50, lyric=False):
     """
@@ -39,16 +41,19 @@ def story(z, image_loc, k=100, bw=50, lyric=False):
     rawim, im = load_image(image_loc)
 
     # Run image through convnet
-    feats = compute_features(z['net'], im).flatten()
-    feats /= norm(feats)
+    with Timer('Run image through convnet'):
+        feats = compute_features(z['net'], im).flatten()
+        feats /= norm(feats)
 
     # Embed image into joint space
-    feats = embedding.encode_images(z['vse'], feats[None,:])
+    with Timer('Encode image into caption space'):
+        feats = embedding.encode_images(z['vse'], feats[None,:])
 
     # Compute the nearest neighbours
-    scores = numpy.dot(feats, z['cvec'].T).flatten()
-    sorted_args = numpy.argsort(scores)[::-1]
-    sentences = [z['cap'][a] for a in sorted_args[:k]]
+    with Timer('Retrieve captions'):
+        scores = numpy.dot(feats, z['cvec'].T).flatten()
+        sorted_args = numpy.argsort(scores)[::-1]
+        sentences = [z['cap'][a] for a in sorted_args[:k]]
 
     print 'NEAREST-CAPTIONS: '
     for s in sentences[:5]:
@@ -56,23 +61,25 @@ def story(z, image_loc, k=100, bw=50, lyric=False):
     print ''
 
     # Compute skip-thought vectors for sentences
-    svecs = skipthoughts.encode(z['stv'], sentences, verbose=False)
+    with Timer('Compute skip-thought vector'):
+        svecs = skipthoughts.encode(z['stv'], sentences, verbose=False)
 
     # Style shifting
     shift = svecs.mean(0) - z['bneg'] + z['bpos']
 
     # Generate story conditioned on shift
-    passage = decoder.run_sampler(z['dec'], shift, beam_width=bw)
-    print 'OUTPUT: '
-    if lyric:
-        for line in passage.split(','):
-            if line[0] != ' ':
-                print line
-            else:
-                print line[1:]
-    else:
-        print passage
-        return passage
+    with Timer('Decoding'):
+        passage = decoder.run_sampler(z['dec'], shift, beam_width=bw)
+        print 'OUTPUT: '
+        if lyric:
+            for line in passage.split(','):
+                if line[0] != ' ':
+                    print line
+                else:
+                    print line[1:]
+        else:
+            print passage
+            return passage
 
 
 def load_all():
@@ -117,6 +124,7 @@ def load_all():
 
     # Caption embeddings
     print 'Embedding captions...'
+    cap = cap[:400]
     cvec = embedding.encode_sentences(vse, cap, verbose=False)
 
     # Biases

@@ -6,3 +6,5 @@ def tell_a_story(image):
     return {
         'passage': passage
     }
+import pdb; pdb.set_trace()
+print tell_a_story('test.image')

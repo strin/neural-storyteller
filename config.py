@@ -5,7 +5,7 @@ Configuration for the generate module
 #-----------------------------------------------------------------------------#
 # Flags for running on CPU
 #-----------------------------------------------------------------------------#
-FLAG_CPU_MODE = True
+FLAG_CPU_MODE = False
 
 #-----------------------------------------------------------------------------#
 # Paths to models and biases
@@ -24,7 +24,7 @@ paths['dictionary'] = 'decoder/romance_dictionary.pkl'
 paths['vsemodel'] = 'decoder/coco_embedding.npz'
 
 # VGG-19 convnet
-paths['vgg'] = 'vgg/vgg19.pkl'
+paths['vgg'] = 'vgg19.pkl'
 paths['pycaffe'] = '/u/yukun/Projects/caffe-run/python'
 paths['vgg_proto_caffe'] = 'vgg/VGG_ILSVRC_19_layers_deploy.prototxt'
 paths['vgg_model_caffe'] = 'vgg/VGG_ILSVRC_19_layers.caffemodel'
