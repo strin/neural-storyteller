@@ -58,3 +58,8 @@ target/
 
 # Ignore changes to configuration file
 config.py
+
+.DS_STORE
+/decoder
+/skipthoughts
+/vgg

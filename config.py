@@ -13,26 +13,26 @@ FLAG_CPU_MODE = True
 paths = dict()
 
 # Skip-thoughts
-paths['skmodels'] = '/u/rkiros/public_html/models/'
-paths['sktables'] = '/u/rkiros/public_html/models/'
+paths['skmodels'] = 'skipthoughts/'
+paths['sktables'] = 'skipthoughts/'
 
 # Decoder
-paths['decmodel'] = '/ais/gobi3/u/rkiros/storyteller/romance.npz'
-paths['dictionary'] = '/ais/gobi3/u/rkiros/storyteller/romance_dictionary.pkl'
+paths['decmodel'] = 'decoder/romance.npz'
+paths['dictionary'] = 'decoder/romance_dictionary.pkl'
 
 # Image-sentence embedding
-paths['vsemodel'] = '/ais/gobi3/u/rkiros/storyteller/coco_embedding.npz'
+paths['vsemodel'] = 'decoder/coco_embedding.npz'
 
 # VGG-19 convnet
-paths['vgg'] = '/ais/gobi3/u/rkiros/vgg/vgg19.pkl'
+paths['vgg'] = 'vgg/vgg19.pkl'
 paths['pycaffe'] = '/u/yukun/Projects/caffe-run/python'
-paths['vgg_proto_caffe'] = '/ais/guppy9/movie2text/neural-storyteller/models/VGG_ILSVRC_19_layers_deploy.prototxt'
-paths['vgg_model_caffe'] = '/ais/guppy9/movie2text/neural-storyteller/models/VGG_ILSVRC_19_layers.caffemodel'
+paths['vgg_proto_caffe'] = 'vgg/VGG_ILSVRC_19_layers_deploy.prototxt'
+paths['vgg_model_caffe'] = 'vgg/VGG_ILSVRC_19_layers.caffemodel'
 
 
 # COCO training captions
-paths['captions'] = '/ais/gobi3/u/rkiros/storyteller/coco_train_caps.txt'
+paths['captions'] = 'decoder/coco_train_caps.txt'
 
 # Biases
-paths['negbias'] = '/ais/gobi3/u/rkiros/storyteller/caption_style.npy'
-paths['posbias'] = '/ais/gobi3/u/rkiros/storyteller/romance_style.npy'
+paths['negbias'] = 'decoder/caption_style.npy'
+paths['posbias'] = 'decoder/romance_style.npy'
