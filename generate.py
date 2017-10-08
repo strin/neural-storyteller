@@ -124,7 +124,6 @@ def load_all():
 
     # Caption embeddings
     print 'Embedding captions...'
-    cap = cap[:400]
     cvec = embedding.encode_sentences(vse, cap, verbose=False)
 
     # Biases
