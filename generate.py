@@ -82,6 +82,23 @@ def story(z, image_loc, k=100, bw=50, lyric=False):
             return passage
 
 
+def load_vgg():
+    # VGG-19
+    print 'Loading and initializing ConvNet...'
+
+    if config.FLAG_CPU_MODE:
+        sys.path.insert(0, config.paths['pycaffe'])
+        import caffe
+        caffe.set_mode_cpu()
+        net = caffe.Net(config.paths['vgg_proto_caffe'],
+                        config.paths['vgg_model_caffe'],
+                        caffe.TEST)
+    else:
+        net = build_convnet(config.paths['vgg'])
+
+    return net
+
+
 def load_all():
     """
     Load everything we need for generating
@@ -102,19 +119,6 @@ def load_all():
     print 'Loading image-sentence embedding...'
     vse = embedding.load_model(config.paths['vsemodel'])
 
-    # VGG-19
-    print 'Loading and initializing ConvNet...'
-
-    if config.FLAG_CPU_MODE:
-        sys.path.insert(0, config.paths['pycaffe'])
-        import caffe
-        caffe.set_mode_cpu()
-        net = caffe.Net(config.paths['vgg_proto_caffe'],
-                        config.paths['vgg_model_caffe'],
-                        caffe.TEST)
-    else:
-        net = build_convnet(config.paths['vgg'])
-
     # Captions
     print 'Loading captions...'
     cap = []
@@ -130,6 +134,9 @@ def load_all():
     print 'Loading biases...'
     bneg = numpy.load(config.paths['negbias'])
     bpos = numpy.load(config.paths['posbias'])
+
+    # VGG Net.
+    net = load_vgg()
 
     # Pack up
     z = {}

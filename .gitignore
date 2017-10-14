@@ -63,3 +63,7 @@ config.py
 /decoder
 /skipthoughts
 /vgg
+
+*.swp
+*.swo
+.ropeproject

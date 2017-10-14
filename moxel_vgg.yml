@@ -1,23 +1,18 @@
-name: neural-storyteller
+name: coco-vgg
 tag: latest
 image: py2-caffe
 assets:
-- skipthoughts
-- decoder
 - vgg
 resources:
-  memory: 1Gi
-  cpu: "1"
-  gpu: "1"
+  gpu: 1
 input_space:
   image: image
 output_space:
-  passage: str
+  feats: array
 setup:
 - pip install lasagne theano==0.8 nltk
-- pip uninstall -y pydot
 - pip install pydot==1.1
 - python -c "import nltk; nltk.download('punkt')"
 main:
   type: python
-  entrypoint: serve.py::tell_a_story
+  entrypoint: serve_vgg.py::predict
