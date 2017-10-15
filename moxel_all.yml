@@ -1,0 +1,13 @@
+name: neural-storyteller-gpu
+tag: latest
+image: python3
+input_space:
+  image: image
+output_space:
+  passage: str
+setup:
+- pip uninstall -y moxel
+- pip install moxel
+main:
+  type: python
+  entrypoint: serve_all.py::predict

@@ -1,3 +1,4 @@
+import os
 import generate
 
 net = generate.load_vgg()

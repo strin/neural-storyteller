@@ -1,0 +1,16 @@
+name: coco-caption
+tag: latest
+image: py2-caffe
+assets:
+- decoder
+input_space:
+  feats: array
+output_space:
+  sentences: json
+setup:
+- pip install lasagne theano==0.8 nltk
+- pip install pydot==1.1
+- python -c "import nltk; nltk.download('punkt')"
+main:
+  type: python
+  entrypoint: serve_caption::predict

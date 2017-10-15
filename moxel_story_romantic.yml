@@ -1,14 +1,15 @@
-name: coco-vgg
+name: story-romantic
 tag: latest
 image: py2-caffe
 assets:
-- vgg19.pkl
+- decoder
+- skipthoughts
 resources:
   gpu: 1
 input_space:
-  image: image
+  sentences: json
 output_space:
-  feats: array
+  passage: str
 envs:
   THEANO_FLAGS: floatX=float32,device=gpu
 setup:
@@ -17,4 +18,4 @@ setup:
 - python -c "import nltk; nltk.download('punkt')"
 main:
   type: python
-  entrypoint: serve_vgg.py::predict
+  entrypoint: serve_story_romantic.py::predict

@@ -82,6 +82,30 @@ def story(z, image_loc, k=100, bw=50, lyric=False):
             return passage
 
 
+def load_caption():
+    # Image-sentence embedding
+    print 'Loading image-sentence embedding...'
+    vse = embedding.load_model(config.paths['vsemodel'])
+
+    # Captions
+    print 'Loading captions...'
+    cap = []
+    with open(config.paths['captions'], 'rb') as f:
+        for line in f:
+            cap.append(line.strip())
+
+    # cap = cap[:100]
+
+    # Caption embeddings
+    print 'Embedding captions...'
+    cvec = embedding.encode_sentences(vse, cap, verbose=False)
+
+    return {
+        'cap': cap,
+        'cvec': cvec,
+        'vse': vse
+    }
+
 def load_vgg():
     # VGG-19
     print 'Loading and initializing ConvNet...'
@@ -98,6 +122,29 @@ def load_vgg():
 
     return net
 
+
+def load_story():
+    # Skip-thoughts
+    print 'Loading skip-thoughts...'
+    stv = skipthoughts.load_model(config.paths['skmodels'],
+                                  config.paths['sktables'])
+
+    # Decoder
+    print 'Loading decoder...'
+    dec = decoder.load_model(config.paths['decmodel'],
+                             config.paths['dictionary'])
+
+    # Biases
+    print 'Loading biases...'
+    bneg = numpy.load(config.paths['negbias'])
+    bpos = numpy.load(config.paths['posbias'])
+    
+    return {
+        'stv': stv,
+        'dec': dec,
+        'bneg': bneg,
+        'bpos': bpos
+    }
 
 def load_all():
     """
